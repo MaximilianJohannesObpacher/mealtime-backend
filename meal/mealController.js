@@ -1,4 +1,5 @@
 var Meal = require('./mealSchema');
+var MealPicture = require('./mealPictureSchema');
 
 exports.postMeal = function(req, res) {
 
@@ -29,6 +30,33 @@ exports.getMeals = function(req, res) {
         res.json(meals);
     });
 };
+
+exports.postPicture = function(req, res) {
+
+    var mealPicture = new MealPicture(req.body);
+
+    mealPicture.save(function(err, m) {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+
+        res.status(201).json(m);
+    });
+};
+
+// Create endpoint /api/meals for GET
+exports.getPictures = function(req, res) {
+    MealPicture.find(function(err, pictures) {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        res.json(pictures);
+    });
+};
+
+
 
 
 // Create endpoint /api/meals/:meal_id for GET

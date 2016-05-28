@@ -25,3 +25,4 @@ var Meal   = new mongoose.Schema({
 // Export the Mongoose model
 module.exports = mongoose.model('Meal', Meal);
 
+
