@@ -1,5 +1,7 @@
 module.exports = mealRoutes;
 
+multiparty = require('connect-multiparty');
+multipartyMiddleware = multiparty();
 
 function mealRoutes() {
 
@@ -12,9 +14,9 @@ function mealRoutes() {
         .get(mealController.getMeals);
 
     router.route('/mealPictures')
-        .post(mealController.postPicture)
-        .get(mealController.getPictures);
-
+     .post(multipartyMiddleware, mealPictureController.uploadFile)
+     .get(mealController.getPictures);
+    
     router.route('/meals/:meal_id')
         .get(mealController.getMeal)
         .put(mealController.putMeal)

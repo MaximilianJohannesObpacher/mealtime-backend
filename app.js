@@ -5,7 +5,7 @@ var Config = require('./config/config.js');
  */
 
 var mongoose = require('mongoose');
-mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
+mongoose.connect([Config.db.host, '/', Config.db.name].join(''), {
     //eventually it's a good idea to make this secure
     user: Config.db.user,
     pass: Config.db.pass
@@ -18,8 +18,12 @@ mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
+multiparty = require('connect-multiparty');
+multipartyMiddleware = multiparty();
 
 var app = express();
+
+MealPictureController = require('./meal/mealPictureController');
 
 /**
  * app setup
