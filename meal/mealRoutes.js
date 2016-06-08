@@ -14,8 +14,8 @@ function mealRoutes() {
         .get(mealController.getMeals);
 
     router.route('/mealPictures')
-     .post(multipartyMiddleware, mealPictureController.uploadFile)
-     .get(mealController.getPictures);
+        .post(multipartyMiddleware, mealPictureController.uploadFile)
+        .get(mealController.getPictures);
     
     router.route('/meals/:meal_id')
         .get(mealController.getMeal)

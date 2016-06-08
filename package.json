@@ -32,5 +32,8 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.0.0",
     "supertest": "^1.2.0"
+  },
+  "devDependencies": {
+    "multiparty": "^4.1.2"
   }
 }
