@@ -1,79 +1,75 @@
-var Config = require('../config/config.js');
 var User = require('./userSchema');
-var jwt = require('jwt-simple');
 
-module.exports.login = function(req, res){
+exports.postUser = function(req, res) {
 
-    if(!req.body.username){
-        res.status(400).send('username required');
-        return;
-    }
-    if(!req.body.password){
-        res.status(400).send('password required');
-        return;
-    }
+    var user = new User(req.body);
 
-    User.findOne({username: req.body.username}, function(err, user){
+    user.save(function(err, m) {
         if (err) {
             res.status(500).send(err);
-            return
-        }
-
-        if (!user) {
-            res.status(401).send('Invalid Credentials');
             return;
         }
-        user.comparePassword(req.body.password, function(err, isMatch) {
-            if(!isMatch || err){
-                res.status(401).send('Invalid Credentials');
-            } else {
-                res.status(200).json({token: createToken(user)});
+
+        res.status(201).json(m);
+
+    });
+};
+
+exports.getUsers = function(req, res) {
+    User.find(function(err, users) {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        res.json(users);
+    });
+};
+
+exports.getUser = function(req, res) {
+    User.findById(req.params.user_id, function(err, user) {
+        if (err) {
+            res.status(500).send(err);
+            return;
+        }
+
+        res.json(user);
+    });
+};
+
+exports.putUser = function(req, res) {
+    User.findByIdAndUpdate(
+        req.params.user_id,
+        req.body,
+        {
+            //pass the new object to cb function
+            new: true,
+            //run validations
+            runValidators: true
+        }, function (err, user) {
+            if (err) {
+                res.status(500).send(err);
+                return;
             }
+            res.json(user);
         });
-    });
 
 };
 
-module.exports.signup = function(req, res){
-    if(!req.body.username){
-        res.status(400).send('username required');
-        return;
-    }
-    if(!req.body.password){
-        res.status(400).send('password required');
-        return;
-    }
-
-    var user = new User();
-
-    user.username = req.body.username;
-    user.password = req.body.password;
-
-    user.save(function(err) {
+// Create endpoint /api/meals/:meal_id for DELETE
+exports.deleteUser = function(req, res) {
+    // Use the Beer model to find a specific beer and remove it
+    User.findById(req.params.user_id, function(err, m) {
         if (err) {
             res.status(500).send(err);
             return;
         }
-
-        res.status(201).json({token: createToken(user)});
-    });
-};
-
-module.exports.unregister = function(req, res) {
-    req.user.remove().then(function (user) {
-        res.sendStatus(200);
-    }, function(err){
-        res.status(500).send(err);
-    });
-};
-
-function createToken(user) {
-    var tokenPayload = {
-        user: {
-            _id: user._id,
-            username: user.username
+        //authorize
+        if (m.user && req.user.equals(m.user)) {
+            m.remove();
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(401);
         }
 
-    };
-    return jwt.encode(tokenPayload,Config.auth.jwtSecret);
+    });
 };

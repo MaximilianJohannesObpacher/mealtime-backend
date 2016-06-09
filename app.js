@@ -53,7 +53,7 @@ var userRoutes = require("./user/userRoutes");
 var mealRoutes = require("./meal/mealRoutes");
 
 app.use('/api', mealRoutes(passport));
-app.use('/', userRoutes(passport));
+app.use('/api', userRoutes(passport));
 
 
 module.exports = app;
