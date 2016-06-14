@@ -4,7 +4,7 @@
 var mongoose = require('mongoose');
 
 var MealPicture = new mongoose.Schema({
-    picture: String
+    img: { data: Buffer, contentType: String }
 });
 
 // Export the Mongoose model

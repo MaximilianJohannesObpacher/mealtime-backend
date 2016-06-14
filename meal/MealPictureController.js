@@ -2,6 +2,7 @@
  * Created by MaximilianObpacher on 07.06.16.
  */
 var MealPicture = require('./mealPictureSchema');
+var fs = require('fs');
 
 
 
@@ -14,7 +15,12 @@ mealPictureController.uploadFile = function(req, res) {
     console.log(file);
     console.log(file.name);
 
-    var mealPicture = new MealPicture(req.body);
+    // Converting file to bytestring
+
+
+    var mealPicture = new MealPicture();
+    mealPicture.img.data = fs.readFileSync(file.path);
+    mealPicture.img.contentType = file.type;
 
     //do not allow user to fake identity. The user who postet the meal must be the same user that is logged in
     /**if (!req.user.equals(meal.chef)) {
@@ -23,6 +29,8 @@ mealPictureController.uploadFile = function(req, res) {
 
     mealPicture.save(function(err, m) {
         if (err) {
+            console.log("Imgdata: " + mealPicture.img.data);
+            console.log("Imgtype: " + mealPicture.img.contentType);
             res.status(500).send(err);
             return;
         }

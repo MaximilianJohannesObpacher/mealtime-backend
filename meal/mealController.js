@@ -34,7 +34,9 @@ exports.getMeals = function(req, res) {
 
 exports.postPicture = function(req, res) {
 
-    var mealPicture = new MealPicture(req.body);
+    var mealPicture = new MealPicture();
+    mealPicture.img.data = req.body;
+    
 
     mealPicture.save(function(err, m) {
         if (err) {
