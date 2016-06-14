@@ -3,9 +3,14 @@ var User = require('./userSchema');
 exports.postUser = function(req, res) {
 
     var user = new User(req.body);
+    
+    console.log("Current User: " + user);
 
     user.save(function(err, m) {
         if (err) {
+            console.log("Error 500 on save");
+            console.error(err);
+            console.log(console.error(err));
             res.status(500).send(err);
             return;
         }

@@ -19,7 +19,7 @@ mealPictureController.uploadFile = function(req, res) {
 
 
     var mealPicture = new MealPicture();
-    mealPicture.img.data = fs.readFileSync(file.path);
+    mealPicture.img.data = fs.readFileSync(file.path).toString("base64");
     mealPicture.img.contentType = file.type;
 
     //do not allow user to fake identity. The user who postet the meal must be the same user that is logged in

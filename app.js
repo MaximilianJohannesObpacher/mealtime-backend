@@ -6,9 +6,10 @@ var Config = require('./config/config.js');
 
 var mongoose = require('mongoose');
 mongoose.connect([Config.db.host, '/', Config.db.name].join(''), {
+    
     //eventually it's a good idea to make this secure
-    user: Config.db.user,
-    pass: Config.db.pass
+    // user: Config.db.user,
+    // pass: Config.db.pass
 });
 
 /**
