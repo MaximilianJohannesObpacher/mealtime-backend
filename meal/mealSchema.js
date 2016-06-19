@@ -3,11 +3,7 @@ var mongoose = require('mongoose');
 
 // Define our meal schema
 var Meal   = new mongoose.Schema({
-    // picture: img;
-    // chef: {
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'User'
-    // }
+    
     name:           String,
     price:          Number,
     count:          Number,
@@ -19,7 +15,11 @@ var Meal   = new mongoose.Schema({
     vegetarian:     Boolean,
     vegan:          Boolean,
     glutenfree:     Boolean,
-    lactosefree:    Boolean
+    lactosefree:    Boolean,
+    chefId:           String,
+    pictureId:      String,
+    guestsIds:      [String]
+    
 });
 
 // Export the Mongoose model
