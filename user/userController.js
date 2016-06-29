@@ -2,21 +2,27 @@ var User = require('./userSchema');
 
 exports.postUser = function(req, res) {
 
-    var user = new User(req.body);
-    
-    console.log("Current User: " + user);
-
-    user.save(function(err, m) {
-        if (err) {
-            console.log("Error 500 on save");
-            console.error(err);
-            console.log(console.error(err));
-            res.status(500).send(err);
+    User.findOne({email: req.body.email}, function(err, user) {
+        if(user){
+            console.log("found mail: "+user.email);
+            res.status(400).send("Email already taken!");
             return;
         }
+        var user = new User(req.body);
+        console.log("New User: " + user);
 
-        res.status(201).json(m);
+        user.save(function(err, m) {
+            if (err) {
+                console.log("Error 500 on save");
+                console.error(err);
+                console.log(console.error(err));
+                res.status(500).send(err);
+                return;
+            }
 
+            res.status(201).json(m);
+
+        });
     });
 };
 
@@ -31,31 +37,27 @@ exports.getUsers = function(req, res) {
 };
 
 exports.getUser = function(req, res) {
-    User.findById(req.params.user_id, function(err, user) {
+    User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
             res.status(500).send(err);
             return;
         }
-
+        if(!user){
+            res.status(400).send("Email not found!");
+            return;
+        }
+        if(user.password != req.body.password){
+            res.status(400).send("Incorrect password!");
+            return;
+        }
+        console.log("Current User: " + user);
         res.json(user);
     });
 };
 
 exports.putUser = function(req, res) {
-    User.findByIdAndUpdate(
-        req.params.user_id,
-        req.body,
-        {
-            //pass the new object to cb function
-            new: true,
-            //run validations
-            runValidators: true
-        }, function (err, user) {
-            if (err) {
-                res.status(500).send(err);
-                return;
-            }
-            res.json(user);
+    User.find({email: req.body.email}, function(err, user) {
+
         });
 
 };
