@@ -13,7 +13,8 @@ var Order   = new mongoose.Schema({
     guestId:    String,
     amount:     String,
     title:      String,
-    message:    String
+    message:    String,
+    eatIn:      Boolean
 
 
 });
