@@ -6,7 +6,6 @@ var Order = require('./orderSchema');
 
 exports.postOrder = function(req, res) {
     var order = new Order(req.body);
-
     order.save(function(err, m) {
         if (err) {
             res.status(500).send(err);
