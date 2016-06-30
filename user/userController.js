@@ -55,12 +55,42 @@ exports.getUser = function(req, res) {
     });
 };
 
+
 exports.putUser = function(req, res) {
-    User.find({email: req.body.email}, function(err, user) {
 
-        });
+    console.log("This should be saved: "+req.body.prename+" "+req.body.lastname+" "+req.body.email+" "+req.body.address+" "+req.body.description+" "+req.body.password+" "+req.body._id+" etc.");
+    //var user = new User(req.body);
+    User.findOne({_id: req.body._id}, function(err, user) {
+        console.log("User before update: " + user);
+    });
+    User.findOneAndUpdate({_id: req.body._id}, {$set: {
+        //_id: req.body._id,
+        password: req.body.password,
+        description: req.body.description,
+        address: req.body.address,
+        email: req.body.email,
+        lastname: req.body.lastname,
+        prename: req.body.prename,
+    }},{returnNewDocument:true}, function(err, user){
+        res.json(user);
+    });
+    User.findOne({_id: req.body._id}, function(err, user) {
+        console.log("Updated User: " + user);
+        //res.json(user);
+    });
+    /*var user = new User(req.body);
+    console.log("update User: " + user);
 
+    user.save({},function(err, user) {
+
+        res.status(201).json(user);
+
+    });
+    User.findOne({_id: req.body._id}, function(err, user) {
+        console.log("Updated User: " + user);
+    });*/
 };
+
 
 // Create endpoint /api/meals/:meal_id for DELETE
 exports.deleteUser = function(req, res) {
