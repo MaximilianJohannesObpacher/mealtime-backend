@@ -75,7 +75,20 @@ exports.deleteOrder = function (req, res) {
 };
 
 exports.getMyOrders = function (req, res) {
-    Order.find({chefId: req.body.chefId}, function (err, orders) {
+    Order.find({chefId: req.body.chefId , "answered":"false"}, function (err, orders) {
+
+        console.log("chefId: ", req.body.chefId);
+        if (err) {
+            console.log("error in query");
+            res.status(500).send(err);
+            return;
+        }
+        res.json(orders);
+    });
+};
+
+exports.getMyRequests = function (req, res) {
+    Order.find({guestId: req.body.guestId}, function (err, orders) {
 
         console.log("chefId: ", req.body.chefId);
         if (err) {

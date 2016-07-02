@@ -11,6 +11,7 @@ var Order   = new mongoose.Schema({
     mealId:     String,
     mealName:   String,
     chefId:     String,
+    chefName:   String,
     guestId:    String,
     guestName:  String,
     amount:     String,
@@ -18,8 +19,7 @@ var Order   = new mongoose.Schema({
     message:    String,
     eatIn:      Boolean,
     accepted:   Boolean,
-    declined:   Boolean
-
+    answered:   Boolean
 
 });
 

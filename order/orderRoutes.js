@@ -25,5 +25,8 @@ function orderRoutes() {
     router.route('/orders/:user_id')
         .post(orderController.getMyOrders);
 
+    router.route('/orderhistory/:user_id')
+        .post(orderController.getMyRequests);
+
     return router;
 }
