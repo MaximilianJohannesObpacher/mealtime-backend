@@ -1,4 +1,5 @@
 var Meal = require('./mealSchema');
+var User = require('../user/userSchema');
 var MealPicture = require('./mealPictureSchema');
 
 exports.postMeal = function(req, res) {
@@ -25,6 +26,20 @@ exports.postMeal = function(req, res) {
 exports.getMeals = function(req, res) {
     Meal.find(function(err, meals) {
         if (err) {
+            res.status(500).send(err);
+            return;
+        }
+        res.json(meals);
+    });
+};
+
+// Create endpoint /api/meals for GET
+exports.getMyMeals = function(req, res) {
+    Meal.find({chefId: req.body.chefId},function(err, meals) {
+        
+        console.log("chefId: ", req.body.chefId);
+        if (err) {
+            console.log("error in query");
             res.status(500).send(err);
             return;
         }
@@ -102,13 +117,10 @@ exports.deleteMeal = function(req, res) {
             res.status(500).send(err);
             return;
         }
-        //authorize
-        if (m.user && req.user.equals(m.user)) {
+        else{
+            console.log("removed item!")
             m.remove();
-            res.sendStatus(200);
-        } else {
-            res.sendStatus(401);
         }
-
+        res.status(200).json(m);
     });
 };

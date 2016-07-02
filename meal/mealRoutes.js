@@ -14,6 +14,9 @@ function mealRoutes() {
         .post(mealController.postMeal)
         .get(mealController.getMeals);
 
+    router.route('/meals/:user_id')
+        .post(mealController.getMyMeals);
+
     router.route('/mealPictures')
         .post(multipartyMiddleware, mealPictureController.uploadFile)
         .get(mealController.getPictures);
