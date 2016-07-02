@@ -4,9 +4,9 @@
 
 var Order = require('./orderSchema');
 
-exports.postOrder = function(req, res) {
+exports.postOrder = function (req, res) {
     var order = new Order(req.body);
-    order.save(function(err, m) {
+    order.save(function (err, m) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -17,8 +17,8 @@ exports.postOrder = function(req, res) {
     });
 };
 
-exports.getOrders = function(req, res) {
-    Order.find(function(err, orders) {
+exports.getOrders = function (req, res) {
+    Order.find(function (err, orders) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -27,8 +27,8 @@ exports.getOrders = function(req, res) {
     });
 };
 
-exports.getOrder = function(req, res) {
-    Order.findById(req.params.order_id, function(err, order) {
+exports.getOrder = function (req, res) {
+    Order.findById(req.params.order_id, function (err, order) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -38,7 +38,7 @@ exports.getOrder = function(req, res) {
     });
 };
 
-exports.putOrder = function(req, res) {
+exports.putOrder = function (req, res) {
     Order.findByIdAndUpdate(
         req.params.order_id,
         req.body,
@@ -57,8 +57,8 @@ exports.putOrder = function(req, res) {
 
 };
 
-exports.deleteOrder = function(req, res) {
-    Order.findById(req.params.order_id, function(err, m) {
+exports.deleteOrder = function (req, res) {
+    Order.findById(req.params.order_id, function (err, m) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -71,5 +71,18 @@ exports.deleteOrder = function(req, res) {
             res.sendStatus(401);
         }
 
+    });
+};
+
+exports.getMyOrders = function (req, res) {
+    Order.find({chefId: req.body.chefId}, function (err, orders) {
+
+        console.log("chefId: ", req.body.chefId);
+        if (err) {
+            console.log("error in query");
+            res.status(500).send(err);
+            return;
+        }
+        res.json(orders);
     });
 };

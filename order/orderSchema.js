@@ -9,12 +9,16 @@ var mongoose = require('mongoose');
 var Order   = new mongoose.Schema({
 
     mealId:     String,
+    mealName:   String,
     chefId:     String,
     guestId:    String,
+    guestName:  String,
     amount:     String,
     title:      String,
     message:    String,
-    eatIn:      Boolean
+    eatIn:      Boolean,
+    accepted:   Boolean,
+    declined:   Boolean
 
 
 });

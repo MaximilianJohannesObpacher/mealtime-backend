@@ -22,5 +22,8 @@ function orderRoutes() {
         .put(orderController.putOrder)
         .delete(orderController.deleteOrder);
 
+    router.route('/orders/:user_id')
+        .post(orderController.getMyOrders);
+
     return router;
 }
